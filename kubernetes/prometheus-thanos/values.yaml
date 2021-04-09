@@ -4,6 +4,8 @@ thanos:
   image: ""
   compactor:
     enabled: false
+cloudwatchExporter:
+  image: "prom/cloudwatch-exporter:cloudwatch_exporter-0.10.0"
 prometheusThanosStorageBucket:
   bucketName: ""
   endpoint: "s3.eu-west-2.amazonaws.com"
