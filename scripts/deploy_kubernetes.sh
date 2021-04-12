@@ -18,6 +18,8 @@ prometheus_image_repo=$(echo $outputs | jq '.prometheus_repository_v2.value.repo
 cluster_name=$(echo $outputs | jq  '.eks_cluster_id.value' | sed 's/"//g')
 prometheus_thanos_storage_bucket_name=$(echo $outputs | jq '.prometheus_thanos_storage_bucket_name.value' | sed 's/"//g')
 prometheus_thanos_storage_kms_key_id=$(echo $outputs | jq '.prometheus_thanos_storage_kms_key_id.value' | sed 's/"//g')
+ecr_url="${SHARED_SERVICES_ACCOUNT_ID}.dkr.ecr.eu-west-2.amazonaws.com"
+cloudwatch_exporter_image="${ecr_url}/cloudwatch-exporter"
 
 # SAVE KUBECONFIG FILE
 AWS_ACCESS_KEY_ID=$access_key AWS_SECRET_ACCESS_KEY=$secret_access_key AWS_SESSION_TOKEN=$session_token aws eks\
@@ -34,7 +36,8 @@ prometheus.image=$prometheus_image_repo,\
 alertmanager.image=prom/alertmanager,\
 prometheusThanosStorageBucket.bucketName=$prometheus_thanos_storage_bucket_name,\
 prometheusThanosStorageBucket.kmsKeyId=$prometheus_thanos_storage_kms_key_id,\
-thanos.image=$TF_VAR_thanos_image_repository_url
+thanos.image=$TF_VAR_thanos_image_repository_url,\
+cloudwatchExporter.image=$cloudwatch_exporter_image
 
 # Display all Pods
 echo "List of Pods:"

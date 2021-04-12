@@ -22,7 +22,7 @@ destroy:
 	aws-vault clear $$AWS_VAULT_PROFILE && aws-vault exec $$AWS_VAULT_PROFILE -- terraform destroy
 
 deploy-kubernetes: 
-	aws-vault clear $$AWS_VAULT_PROFILE && aws-vault exec $$AWS_VAULT_PROFILE --no-session -- ./scripts/deploy_kubernetes.sh
+	SHARED_SERVICES_ACCOUNT_ID=$$SHARED_SERVICES_ACCOUNT_ID aws-vault clear $$AWS_VAULT_PROFILE && aws-vault exec $$AWS_VAULT_PROFILE --no-session -- ./scripts/deploy_kubernetes.sh
 
 test:
 	cd test/; docker-compose up -d --remove-orphans; ./run_test.sh
