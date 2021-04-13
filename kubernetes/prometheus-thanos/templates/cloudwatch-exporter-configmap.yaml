@@ -4,17 +4,36 @@ metadata:
   name: cloudwatch-exporter-configmap
 data:
   config.yml: |
-    region: eu-west-2
-    metrics:
-    - aws_namespace: AWS/EC2
-      aws_metric_name: CPUUtilization
-      aws_statistics: [Average]
-      aws_dimensions: [InstanceId]
-    - aws_namespace: AWS/ECS
-      aws_metric_name: CPUUtilization
-      aws_statistics: [Average]
-      aws_dimensions: [ClusterName, ServiceName]
-    - aws_namespace: AWS/ECS
-      aws_metric_name: MemoryUtilization
-      aws_statistics: [Average]
-      aws_dimensions: [ClusterName, ServiceName]
+    discovery:
+      exportedTagsOnMetrics:
+        ec2:
+          - Name
+          - type
+        ecs:
+          - ClusterName
+          - ServiceName
+      jobs:
+      - regions: [eu-west-2]
+        type: AWS/EC2
+        length: 300
+        metrics:
+          - name: CPUUtilization
+            statistics: [Average]
+            nilToZero: true
+      - regions: [eu-west-2]
+        type: AWS/ECS
+        length: 300
+        metrics:
+          - name: CPUUtilization
+            statistics: [Average]
+            nilToZero: true
+      - regions: [eu-west-2]
+        type: AWS/ECS
+        length: 300
+        metrics:
+          - name: MemoryUtilization
+            statistics: [Average]
+            nilToZero: true
+
+
+# GP_VMseries,GP_VMseries_dimensions,SOP_VMseries,SOP_VMseries_dimensions
