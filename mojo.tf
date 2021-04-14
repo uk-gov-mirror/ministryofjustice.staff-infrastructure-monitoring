@@ -214,8 +214,8 @@ module "blackbox_exporter_lb_access_logging_v2" {
 }
 
 module "cloudwatch_exporter" {
-  source                = "./modules/cloudwatch_exporter"
-  production_account_id = var.production_account_id
+  source                       = "./modules/cloudwatch_exporter"
+  production_account_id        = var.production_account_id
   cloudwatch_access_policy_arn = module.monitoring_platform_v2.cloudwatch_access_policy
 
   providers = {
