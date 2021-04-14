@@ -11,6 +11,11 @@ variable "tags" {
   type = map(string)
 }
 
+variable "is_production" {
+  type    = bool
+  default = false
+}
+
 variable "enable_transit_gateway" {
   type    = bool
   default = false
