@@ -13,6 +13,9 @@ data:
         ecs:
           - ClusterName
           - ServiceName
+        s3:
+          - BucketName
+          - StorageType
       jobs:
       - regions: [eu-west-2]
         roleArns:
@@ -30,13 +33,27 @@ data:
         length: 300
         metrics:
           - name: CPUUtilization
-            statistics: [Average]
+            statistics: [Average, Minimum, Maximum]
             nilToZero: true
       - regions: [eu-west-2]
         type: AWS/ECS
         length: 300
         metrics:
           - name: MemoryUtilization
+            statistics: [Average]
+            nilToZero: true
+      - regions: [eu-west-2]
+        type: AWS/RDS
+        length: 300
+        metrics:
+          - name: FreeStorageSpace
+            statistics: [Average]
+            nilToZero: true
+      - regions: [eu-west-2]
+        type: AWS/S3
+        length: 300
+        metrics:
+          - name: BucketSizeBytes
             statistics: [Average]
             nilToZero: true
 {{ else }}
@@ -51,6 +68,9 @@ data:
         ecs:
           - ClusterName
           - ServiceName
+        s3:
+          - BucketName
+          - StorageType
       jobs:
       - regions: [eu-west-2]
         type: AWS/EC2
@@ -64,13 +84,27 @@ data:
         length: 300
         metrics:
           - name: CPUUtilization
-            statistics: [Average]
+            statistics: [Average, Minimum, Maximum]
             nilToZero: true
       - regions: [eu-west-2]
         type: AWS/ECS
         length: 300
         metrics:
           - name: MemoryUtilization
+            statistics: [Average]
+            nilToZero: true
+      - regions: [eu-west-2]
+        type: AWS/RDS
+        length: 300
+        metrics:
+          - name: FreeStorageSpace
+            statistics: [Average]
+            nilToZero: true
+      - regions: [eu-west-2]
+        type: AWS/S3
+        length: 300
+        metrics:
+          - name: BucketSizeBytes
             statistics: [Average]
             nilToZero: true
 {{ end }}
